@@ -46,11 +46,11 @@
   }
 }
 
-.section-header:has(.h-left-container) .header-row.--left.categories {
+.section-header:has(.h-left-container) .header-row.--center.categories {
   position: relative;
 }
 
-.section-header:has(.h-left-container) .header-row.--left.categories::before {
+.section-header:has(.h-left-container) .header-row.--center.categories::before {
   content: "";
   position: absolute;
   top: 0;
