@@ -64,6 +64,13 @@
     padding: 15px 0!important;
 }
 
+.cart-quantity {
+    margin-left: -8px;
+    width: 24px;
+    position: relative;
+    top: -7px;
+}
+
 @media only screen and (max-width: 700px) {
     .header.fixed-header .header-content .logo {
         height: 60px;
