@@ -63,3 +63,9 @@
 .section-header:has(.h-left-container) .header-row {
     padding: 15px 0!important;
 }
+
+@media (max-width: 600px) {
+  .section-header:has(.h-center-container) .header-row.--center.categories {
+    position: fixed;
+  } 
+}
