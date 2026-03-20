@@ -87,3 +87,11 @@
     position: fixed;
   } 
 }
+
+.search-bar input[data-v-0cbc7ce5] {
+    border: 1px solid #d3acad!important;
+}
+
+.search-bar input[data-v-0cbc7ce5]:hover {
+    border-color: #bb8186!important;
+}
