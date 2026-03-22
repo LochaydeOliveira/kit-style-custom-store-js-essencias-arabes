@@ -131,5 +131,5 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
 }
 
 .section-pages .holder-content .content {
-    margin-left: 0!important;
+  margin: 1rem 0 !important;
 }
