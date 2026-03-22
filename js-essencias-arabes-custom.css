@@ -121,3 +121,7 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
 .theme-title {
     color: #a67c2e!important;
 }
+
+.c-highlight-header {
+    text-align: center!important;
+}
