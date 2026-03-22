@@ -125,3 +125,7 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
 .c-highlight-header {
     text-align: center!important;
 }
+
+.c-highlight-content--slide img {
+    border-radius: 50%!important;
+}
