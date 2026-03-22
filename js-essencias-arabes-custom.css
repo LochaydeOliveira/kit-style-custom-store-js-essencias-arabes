@@ -98,11 +98,15 @@
 }
 
 .search-bar input[data-v-0cbc7ce5] {
-    border: 1px solid #d3acad!important;
+    border: 1px solid var(--header-bg-color)!important;
 }
 
 .search-bar input[data-v-0cbc7ce5]:hover {
     border-color: #bb8186!important;
+}
+
+input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbox],[type=radio],[type=range]) {
+    background-color: #f9e7d7!important;
 }
 
 .ql-size-huge span {
