@@ -129,3 +129,7 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
 .c-highlight-content--slide img {
     border-radius: 50%!important;
 }
+
+.section-pages .holder-content .content {
+    margin-left: 0!important;
+}
