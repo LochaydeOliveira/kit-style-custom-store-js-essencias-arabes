@@ -133,3 +133,7 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
 .section-pages .holder-content .content {
   margin: 1rem 0 !important;
 }
+
+.editor-theme ul {
+    padding-inline-start: 0px!important;
+}
