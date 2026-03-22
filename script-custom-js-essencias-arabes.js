@@ -1,19 +1,29 @@
-// Função para verificar a URL e ocultar o elemento
-function ocultarAlerta() {
-  // Obtém a URL atual
-  const urlAtual = window.location.href;
+(function() {
+    // 1. Injeta o CSS imediatamente para garantir que os elementos fiquem ocultos
+    // mesmo que o resto da página ainda esteja carregando.
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .alert.-yellow, 
+        .section-pages .holder-content .pages { 
+            display: none !important; 
+        }
+    `;
+    document.head.appendChild(style);
 
-  // Verifica se a URL contém "sobre-nos"
-  if (urlAtual.includes("sobre-nos")) {
-    // Seleciona o elemento que você deseja ocultar
-    const elementoAlerta = document.querySelector(".alert.-yellow");
+    // 2. Função para verificar a URL e decidir se mostra os elementos
+    function gerenciarVisibilidade() {
+        const urlAtual = window.location.href;
 
-    // Se o elemento existir, oculta-o
-    if (elementoAlerta) {
-      elementoAlerta.style.display = "none";
+        // Se NÃO contiver "sobre-nos", nós removemos a ocultação (exibimos)
+        if (!urlAtual.includes("sobre-nos")) {
+            style.innerHTML = ''; // Limpa o CSS de ocultação que criamos acima
+        }
     }
-  }
-}
 
-// Executa a função quando a página for carregada
-window.addEventListener("load", ocultarAlerta);
+    // Executa assim que o DOM básico estiver pronto (mais rápido que o 'load')
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', gerenciarVisibilidade);
+    } else {
+        gerenciarVisibilidade();
+    }
+})();
