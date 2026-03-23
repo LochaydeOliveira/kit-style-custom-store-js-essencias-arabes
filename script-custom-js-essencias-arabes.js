@@ -29,62 +29,58 @@
     }
 
     // ============================================================
-    // PARTE 2: Lógica do Slide Automático (Mais Robusta)
+    // PARTE 2: Lógica do Slide Automático (Simulação de Clique)
     // ============================================================
     
-    let tentativasAutoplay = 0;
-    const maxTentativas = 40; // Tenta por até 20 segundos (40 * 500ms)
+    let intervaloSimulacaoClique;
+    const tempoEntreSlides = 3000; // 3 segundos (em milissegundos)
 
-    function tentarAtivarAutoplay() {
-        tentativasAutoplay++;
+    function simularCliqueProximoSlide() {
+        // Procura o botão "Próximo" (Next) dentro da seção de destaques
+        const botaoProximo = document.querySelector('.highlight .splide__arrow--next');
 
-        // Procura por qualquer elemento com a classe .splide dentro da seção de destaques
-        const elementoSlide = document.querySelector('.highlight .splide');
-
-        // VERIFICAÇÃO CRÍTICA: O elemento E a biblioteca Splide existem?
-        // Verificamos window.Splide e também tentamos acessar Splide diretamente
-        const splideDisponivel = window.Splide || (typeof Splide !== 'undefined');
-
-        if (elementoSlide && splideDisponivel) {
-            
-            // Sucesso! Vamos configurar.
-            try {
-                // Usamos o elemento encontrado diretamente, em vez do ID
-                new Splide(elementoSlide, {
-                    type      : 'loop',      
-                    autoplay  : true,        
-                    interval  : 3000,        
-                    pauseOnHover: true,      
-                    arrows    : true,        
-                    pagination: false,       
-                    perPage   : 1,           
-                    breakpoints: {           
-                        768: { perPage: 1 }
-                    }
-                }).mount();
-
-                console.log('Autoplay do Splide ativado com sucesso após ' + tentativasAutoplay + ' tentativas.');
-                
-                // Pára de tentar
-                clearInterval(intervaloAutoplay);
-            } catch (erro) {
-                console.error('Erro ao tentar montar o Splide:', erro);
-                // Se der erro, para de tentar para não travar a página
-                clearInterval(intervaloAutoplay);
+        if (botaoProximo) {
+            // Verifica se o botão não está desativado (disabled)
+            // Se o Splide nativo da Yampi chegar ao fim e não estiver em loop, 
+            // ele pode desativar o botão.
+            if (!botaoProximo.disabled) {
+                botaoProximo.click(); // Simula o clique
+                console.log('Simulando clique no próximo slide (Autoplay forçado).');
+            } else {
+                console.log('Botão próximo desativado. Tentando voltar ao primeiro slide.');
+                // Se estiver desativado, tentamos clicar no botão "Anterior" repetidamente
+                // para voltar ao início, simulando um loop.
+                retornarAoInicio();
             }
-
-        } else if (tentativasAutoplay >= maxTentativas) {
-            // Desiste após muitas tentativas frustradas
-            console.warn('Desistindo de ativar o autoplay. O elemento .splide ou a biblioteca Splide.js não carregaram a tempo.');
-            console.log('Verificando se o elemento existe:', elementoSlide);
-            console.log('Verificando se a biblioteca Splide está disponível:', splideDisponivel);
-            clearInterval(intervaloAutoplay);
         }
-        // Se ainda não achou e não estourou o limite, o intervalo continua...
     }
 
-    // Define o intervalo para tentar a cada 500 milissegundos (meio segundo)
-    let intervaloAutoplay;
+    function retornarAoInicio() {
+        const botaoAnterior = document.querySelector('.highlight .splide__arrow--prev');
+        if (botaoAnterior) {
+            // Clica no anterior até que ele fique desativado (chegou no primeiro)
+            let loopRetorno = setInterval(() => {
+                if (botaoAnterior && !botaoAnterior.disabled) {
+                    botaoAnterior.click();
+                } else {
+                    clearInterval(loopRetorno);
+                    console.log('Retornou ao primeiro slide.');
+                }
+            }, 100); // Clica rápido para voltar
+        }
+    }
+
+    function iniciarAutoplayForcado() {
+        // Limpa qualquer intervalo anterior para evitar duplicidade
+        clearInterval(intervaloSimulacaoClique);
+
+        // Verifica se o slide existe na página
+        if (document.querySelector('.highlight .splide')) {
+            // Inicia o intervalo para clicar a cada X segundos
+            intervaloSimulacaoClique = setInterval(simularCliqueProximoSlide, tempoEntreSlides);
+            console.log('Autoplay forçado iniciado (clique simulado a cada ' + tempoEntreSlides/1000 + 's).');
+        }
+    }
 
     // ============================================================
     // EXECUÇÃO
@@ -93,12 +89,10 @@
     // 1. A ocultação roda IMEDIATAMENTE (é a mais rápida)
     gerenciarVisibilidade();
 
-    // 2. A tentativa do slide começa no DOMContentLoaded, mas aguarda a biblioteca
+    // 2. A simulação do clique começa quando o DOM estiver pronto
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            intervaloAutoplay = setInterval(tentarAtivarAutoplay, 500);
-        });
+        document.addEventListener('DOMContentLoaded', iniciarAutoplayForcado);
     } else {
-        intervaloAutoplay = setInterval(tentarAtivarAutoplay, 500);
+        iniciarAutoplayForcado();
     }
 })();
