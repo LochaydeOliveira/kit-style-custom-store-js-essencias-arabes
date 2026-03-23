@@ -1,6 +1,6 @@
 (function() {
     // ============================================================
-    // PARTE 1: Lógica de Ocultar Elementos (Anterior)
+    // PARTE 1: Lógica de Ocultar Elementos (Mantida)
     // ============================================================
     
     // 1. Injeta o CSS imediatamente para ocultar os elementos por padrão
@@ -29,54 +29,70 @@
     }
 
     // ============================================================
-    // PARTE 2: Lógica do Slide Automático (Nova)
+    // PARTE 2: Lógica do Slide Automático (Corrigida e Robusta)
     // ============================================================
     
-    function ativarSlideAutomatico() {
-        // O ID do slide no seu HTML é 'splide02'
+    let tentativasAutoplay = 0;
+    const maxTentativas = 20; // Tenta por até 10 segundos (20 * 500ms)
+
+    function tentarAtivarAutoplay() {
+        tentativasAutoplay++;
+
         const seletorSlide = '#splide02';
         const elementoSlide = document.querySelector(seletorSlide);
 
-        // Verifica se o slide realmente existe nesta página
+        // VERIFICAÇÃO CRÍTICA: O elemento E a biblioteca Splide existem?
         if (elementoSlide && window.Splide) {
             
-            // Cria uma nova instância do Splide apontando para o elemento existente.
-            // O Splide.js é inteligente o suficiente para reconhecer que ele já foi 
-            // inicializado e vai apenas atualizar as configurações.
-            new Splide(seletorSlide, {
-                type      : 'loop',      // Faz o slide voltar ao início infinitamente
-                autoplay  : true,        // Ativa o modo automático
-                interval  : 3000,        // Tempo entre os slides (em milissegundos, 3000 = 3 segundos)
-                pauseOnHover: true,      // Pausa o autoplay quando o mouse está em cima
-                arrows    : true,        // Mantém as setas ativas
-                pagination: false,       // Desativa as bolinhas de paginação (opcional)
-                perPage   : 1,           // Mostra 1 slide por vez (ajuste conforme necessário)
-                breakpoints: {           // Configurações para mobile
-                    768: {
-                        perPage: 1,
+            // Sucesso! Vamos configurar.
+            try {
+                new Splide(seletorSlide, {
+                    type      : 'loop',      
+                    autoplay  : true,        
+                    interval  : 3000,        
+                    pauseOnHover: true,      
+                    arrows    : true,        
+                    pagination: false,       
+                    perPage   : 1,           
+                    breakpoints: {           
+                        768: { perPage: 1 }
                     }
-                }
-            }).mount(); // O método .mount() aplica as configurações
+                }).mount();
 
-            console.log('Autoplay ativado para o slide:', seletorSlide);
-        } else {
-            console.warn('Slide #splide02 ou biblioteca Splide não encontrados.');
+                console.log('Autoplay do Splide ativado com sucesso após ' + tentativasAutoplay + ' tentativas.');
+                
+                // Pára de tentar
+                clearInterval(intervaloAutoplay);
+            } catch (erro) {
+                console.error('Erro ao tentar montar o Splide:', erro);
+                // Se der erro, para de tentar para não travar a página
+                clearInterval(intervaloAutoplay);
+            }
+
+        } else if (tentativasAutoplay >= maxTentativas) {
+            // Desiste após muitas tentativas frustradas
+            console.warn('Desistindo de ativar o autoplay. O elemento #splide02 ou a biblioteca Splide.js não carregaram a tempo.');
+            clearInterval(intervaloAutoplay);
         }
+        // Se ainda não achou e não estourou o limite, o intervalo continua...
     }
+
+    // Define o intervalo para tentar a cada 500 milissegundos (meio segundo)
+    let intervaloAutoplay;
 
     // ============================================================
     // EXECUÇÃO
     // ============================================================
 
-    // Executa as funções assim que o DOM básico estiver pronto
-    function inicializar() {
-        gerenciarVisibilidade();
-        ativarSlideAutomatico();
-    }
+    // 1. A ocultação roda IMEDIATAMENTE (é a mais rápida)
+    gerenciarVisibilidade();
 
+    // 2. A tentativa do slide começa no DOMContentLoaded, mas aguarda a biblioteca
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', inicializar);
+        document.addEventListener('DOMContentLoaded', () => {
+            intervaloAutoplay = setInterval(tentarAtivarAutoplay, 500);
+        });
     } else {
-        inicializar();
+        intervaloAutoplay = setInterval(tentarAtivarAutoplay, 500);
     }
 })();
