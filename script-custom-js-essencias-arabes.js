@@ -29,24 +29,28 @@
     }
 
     // ============================================================
-    // PARTE 2: Lógica do Slide Automático (Corrigida e Robusta)
+    // PARTE 2: Lógica do Slide Automático (Mais Robusta)
     // ============================================================
     
     let tentativasAutoplay = 0;
-    const maxTentativas = 20; // Tenta por até 10 segundos (20 * 500ms)
+    const maxTentativas = 40; // Tenta por até 20 segundos (40 * 500ms)
 
     function tentarAtivarAutoplay() {
         tentativasAutoplay++;
 
-        const seletorSlide = '#splide02';
-        const elementoSlide = document.querySelector(seletorSlide);
+        // Procura por qualquer elemento com a classe .splide dentro da seção de destaques
+        const elementoSlide = document.querySelector('.highlight .splide');
 
         // VERIFICAÇÃO CRÍTICA: O elemento E a biblioteca Splide existem?
-        if (elementoSlide && window.Splide) {
+        // Verificamos window.Splide e também tentamos acessar Splide diretamente
+        const splideDisponivel = window.Splide || (typeof Splide !== 'undefined');
+
+        if (elementoSlide && splideDisponivel) {
             
             // Sucesso! Vamos configurar.
             try {
-                new Splide(seletorSlide, {
+                // Usamos o elemento encontrado diretamente, em vez do ID
+                new Splide(elementoSlide, {
                     type      : 'loop',      
                     autoplay  : true,        
                     interval  : 3000,        
@@ -71,7 +75,9 @@
 
         } else if (tentativasAutoplay >= maxTentativas) {
             // Desiste após muitas tentativas frustradas
-            console.warn('Desistindo de ativar o autoplay. O elemento #splide02 ou a biblioteca Splide.js não carregaram a tempo.');
+            console.warn('Desistindo de ativar o autoplay. O elemento .splide ou a biblioteca Splide.js não carregaram a tempo.');
+            console.log('Verificando se o elemento existe:', elementoSlide);
+            console.log('Verificando se a biblioteca Splide está disponível:', splideDisponivel);
             clearInterval(intervaloAutoplay);
         }
         // Se ainda não achou e não estourou o limite, o intervalo continua...
