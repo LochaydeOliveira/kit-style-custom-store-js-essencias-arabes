@@ -149,6 +149,7 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
   .holder-newsletter {
       min-width: 85%!important;
       margin: 0 auto;
+      max-width: 320px !important;
   }
 }
 
