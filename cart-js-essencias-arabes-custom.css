@@ -186,6 +186,9 @@ span.f11.black-50::after {
     }
 }
 
-.splide__list li {
-    width: 220px!important;
+@media (max-width: 768px) {
+    .ql-size-huge {
+        font-size: 1.5em;
+        line-height: calc(1em + 5px);
+    }
 }
