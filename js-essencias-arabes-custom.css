@@ -145,7 +145,7 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
     }
 }
 
-@media (max-width: 767px) {
+@media only screen and (max-width: 767px) {
   .holder-newsletter {
       min-width: 85%;
       margin: 0 auto;
@@ -154,7 +154,7 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
 }
 
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .holder-newsletter {
       border: 1px solid #7a3130;
       min-width: 45%;
