@@ -185,3 +185,7 @@ span.f11.black-50::after {
         background-size: auto 400px, 100% auto, auto 400px !important; 
     }
 }
+
+.splide__list li {
+    width: 220px!important;
+}
