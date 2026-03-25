@@ -144,3 +144,7 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
         line-height: calc(1em + 5px);
     }
 }
+
+.section-text-button-2-banners--banners img {
+    border-radius: 25px!important;
+}
