@@ -185,10 +185,3 @@ span.f11.black-50::after {
         background-size: auto 400px, 100% auto, auto 400px !important; 
     }
 }
-
-@media (max-width: 768px) {
-    .ql-size-huge {
-        font-size: 1.5em;
-        line-height: calc(1em + 5px);
-    }
-}

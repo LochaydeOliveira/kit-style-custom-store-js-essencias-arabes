@@ -137,3 +137,10 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
 .editor-theme ul {
     padding-inline-start: 0px!important;
 }
+
+@media (max-width: 768px) {
+    .ql-size-huge {
+        font-size: 1.5em;
+        line-height: calc(1em + 5px);
+    }
+}
