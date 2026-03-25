@@ -145,18 +145,20 @@ input:not([type=checkbox],[type=radio],[type=range]), textarea:not([type=checkbo
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767.9px) {
   .holder-newsletter {
-      min-width: 85%!important;
+      min-width: 85%;
       margin: 0 auto;
-      max-width: 320px !important;
+      max-width: 320px;
   }
 }
 
 
-.holder-newsletter {
-    border: 1px solid #7a3130;
-    min-width: 45%;
-    background: #f1d8c2;
-    max-width: 400px!important;
+@media (min-width: 768px) {
+  .holder-newsletter {
+      border: 1px solid #7a3130;
+      min-width: 45%;
+      background: #f1d8c2;
+      max-width: 400px;
+  }
 }
