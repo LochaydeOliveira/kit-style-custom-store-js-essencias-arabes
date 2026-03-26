@@ -74,3 +74,7 @@ body.custom-checkout header .item-security, body.turboofertas header .item-secur
     padding: 5rem 0 45px!important;
     background: #fbf5ef!important;
 }
+
+.holder-cols-checkout .box-checkout:not(.active):not(.disabled):not(.box-resume):not(.box-payment).--with-preview {
+    border: none!important;
+}
