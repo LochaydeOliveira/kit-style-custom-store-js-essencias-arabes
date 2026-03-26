@@ -50,3 +50,19 @@ header .item-security {
     0%, 48% { content: "PAGAMENTO VIA PIX ENVIAMOS EM 24H"; }
     52%, 100% { content: "ENTREGA GARANTIDA EM TODO O BRASIL"; }
 }
+
+@media (max-width: 600px) {
+    header {
+        --logo-max-width: 200px!important;
+    }
+}
+
+@media (max-width: 700px) {
+    header {
+        --header-height: 70px!important;
+    }
+    header .holder-logo .logo .img-logo {
+        max-height: 45px!important;
+    }
+}
+
